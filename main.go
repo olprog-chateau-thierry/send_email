@@ -1,10 +1,14 @@
 package main
 
 import (
+	"embed"
 	"log"
 	"net/http"
 	"text/template"
 )
+
+//go:embed index.html
+var index embed.FS
 
 func main() {
 	mux := http.NewServeMux()
@@ -22,10 +26,8 @@ func main() {
 
 			log.Println(firstname, lastname, reason, message)
 			w.Header().Add("Content-Type", "text/html")
-			tmpl, err := template.ParseFiles("index.html")
-			if err != nil {
-				http.Error(w, "Problème de template html", http.StatusInternalServerError)
-			}
+			tmpl := template.Must(template.ParseFS(index, "index.html"))
+
 			tmpl.Execute(w, map[string]string{
 				"firstname": firstname,
 				"lastname":  lastname,
