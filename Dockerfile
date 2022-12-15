@@ -1,21 +1,23 @@
 FROM golang:alpine AS builder
 
-RUN mkdir /app
-
-COPY . /app
-
 RUN apk update && apk add --no-cache git && apk add git
 
-WORKDIR /app
+WORKDIR /
+
+RUN mkdir /app
 
 RUN git clone https://github.com/olprog-chateau-thierry/send_email.git
 
-RUN go build -o /app/send_email
+WORKDIR send_email
+
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /app/send_email
+
+RUN ls -alh /app
 
 FROM scratch
 
-COPY --from=builder /app/send_email /app/send_email
+COPY --from=builder /app/send_email /email
 
 EXPOSE 8080
 
-ENTRYPOINT ["/app/send_email"]
+ENTRYPOINT ["/email"]
