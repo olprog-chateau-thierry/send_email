@@ -1,0 +1,3 @@
+module chateau_thierry_formulaire_email_16_12_2022
+
+go 1.19

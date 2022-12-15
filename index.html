@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Response</title>
+	<style>
+		:root {
+			font-family: "Trebuchet MS", serif;
+			font-size: 16px;
+		}
+
+		.container {
+            width: 80%;
+            margin: auto;
+		}
+
+		h1 {
+			text-align: center;
+			text-decoration: underline;
+		}
+
+		.response div {
+            background-color: #E6E6E6FF;
+			padding: 10px;
+            margin: 20px 0;
+		}
+
+		.response h3 {
+			text-decoration: underline;
+		}
+
+		.response p {
+			font-style: italic;
+		}
+
+		button {
+            width: 100%;
+			border: none;
+			padding: 20px;
+			font-size: 20px;
+            background-color: black;
+			color: white;
+			transition: 300ms ease-in-out background-color;
+		}
+
+		button:hover {
+            background-color: #5b5b5b;
+		}
+	</style>
+</head>
+<body>
+<div class="container">
+	<h1>Response</h1>
+
+	<div class="response">
+		<div>
+			<h3>Prénom : </h3>
+			<p>{{ .firstname }}</p>
+		</div>
+		<div>
+			<h3>Nom : </h3>
+			<p>{{ .lastname }}</p>
+		</div>
+		<div>
+			<h3>Raison : </h3>
+			<p>{{ .reason }}</p>
+		</div>
+		<div>
+			<h3>Message : </h3>
+			<p>{{ .message }}</p>
+		</div>
+	</div>
+
+	<button onclick="history.back();">Retour</button>
+</div>
+</body>
+</html>
