@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>TD - 16 / 12 / 2022</title>
+	<style>
+
+        *, ::after, ::before {
+            box-sizing: border-box;
+        }
+
+        :root {
+            font-family: "Trebuchet MS", sans-serif;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 700px;
+            margin: auto;
+            background-color: whitesmoke;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 1px;
+            margin: 0;
+            background-color: lightgray;
+        }
+
+        .section {
+            /*margin: auto;*/
+        }
+
+        .section div {
+            background-color: lightgray;
+            width: calc(50% - (5px / 2));
+            margin: 20px 0;
+            padding: 20px;
+            border: none;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .section div:first-child {
+            margin-right: 5px;
+        }
+
+        .section div:hover {
+            filter: invert(100%);
+        }
+
+        .section div p {
+            text-decoration: underline;
+            font-weight: bold;
+        }
+
+        .email .row {
+            background-color: lightgray;
+            margin: 10px 0;
+            padding: 10px;
+        }
+
+        .email .row div {
+            margin: 10px 0;
+            width: 100%;
+        }
+
+        .email .row label {
+            text-decoration: underline;
+            font-weight: bold;
+        }
+
+        .email .row div input,
+        .email .row div select {
+            width: calc(100%);
+            height: 30px;
+            font-size: 16px;
+            border: none;
+            outline: none;
+        }
+
+        .email .row div textarea {
+            width: calc(100%);
+            min-height: 100px;
+            max-height: 300px;
+            height: 150px;
+            font-size: 16px;
+            resize: vertical;
+            border: none;
+        }
+
+        .email .row button {
+            width: calc(50% - (5px / 2));
+            height: 50px;
+            font-size: 16px;
+            border: none;
+            padding: 0;
+            display: inline-block;
+        }
+
+        .email .row button:first-child {
+            margin-right: 5px;
+        }
+
+        .email .row button[type=submit] {
+            background-color: seagreen;
+            color: white;
+        }
+
+        .email .row button[type=submit]:hover {
+            background-color: limegreen;
+        }
+
+        .email .row button[type=reset] {
+            background-color: darkred;
+            color: white;
+        }
+
+        .email .row button[type=reset]:hover {
+            background-color: orangered;
+        }
+
+	</style>
+</head>
+<body>
+<div class="container">
+	<div class="header">
+		<h1>Contact</h1>
+	</div>
+
+	<div class="section">
+		<div class="part">
+			<img src="/static/images/part.png" alt="">
+			<p>Particulier</p>
+		</div><!--
+		-->
+		<div class="pro">
+			<img src="/static/images/pro.png" alt="">
+			<p>Professionnel</p>
+		</div>
+	</div>
+
+	<div class="email">
+		<form action="/send_email" method="post">
+			<div class="row">
+				<label for="firstname">Prénom</label>
+				<div>
+					<input type="text" name="firstname" id="firstname">
+				</div>
+			</div>
+			<div class="row">
+				<label for="lastname">Nom</label>
+				<div>
+					<input type="text" name="lastname" id="lastname">
+				</div>
+			</div>
+			<div class="row">
+				<label for="reason">Raison</label>
+				<div>
+					<select name="reason" id="reason">
+						<option value="admin">Problème administratif</option>
+						<option value="tech">Problème Technique</option>
+						<option value="juri">Problème Juridique</option>
+						<option value="other">Autres</option>
+					</select>
+				</div>
+			</div>
+			<div class="row">
+				<label for="message">Message</label>
+				<div>
+					<textarea name="message" id="message" cols="30" rows="10"></textarea>
+				</div>
+			</div>
+
+			<div class="row">
+				<button type="submit">Envoyer</button><!--
+				-->
+				<button type="reset">Annuler</button>
+			</div>
+		</form>
+	</div>
+</div>
+</body>
+</html>

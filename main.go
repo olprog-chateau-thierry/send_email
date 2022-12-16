@@ -7,11 +7,26 @@ import (
 	"text/template"
 )
 
-//go:embed index.html
-var index embed.FS
+//go:embed html/*
+var html embed.FS
+
+//go:embed html/images
+var images embed.FS
 
 func main() {
 	mux := http.NewServeMux()
+
+	mux.Handle("/static/", http.FileServer(http.FS(html)))
+
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodGet {
+			tmpl := template.Must(template.ParseFS(html, "html/index.html"))
+			tmpl.Execute(w, nil)
+		} else {
+			log.Println("error")
+			http.Error(w, "Ceci n'est pas la bonne Méthode HTTP", http.StatusMethodNotAllowed)
+		}
+	})
 
 	mux.HandleFunc("/send_email", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodPost {
@@ -26,7 +41,7 @@ func main() {
 
 			log.Println(firstname, lastname, reason, message)
 			w.Header().Add("Content-Type", "text/html")
-			tmpl := template.Must(template.ParseFS(index, "index.html"))
+			tmpl := template.Must(template.ParseFS(html, "html/form.html"))
 
 			tmpl.Execute(w, map[string]string{
 				"firstname": firstname,
@@ -56,79 +71,3 @@ func getReason(str string) string {
 	}
 	return ""
 }
-
-const html = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Response</title>
-	<style>
-		:root {
-			font-family: "Trebuchet MS", serif;
-			font-size: 16px;
-		}
-
-		.container {
-            width: 80%;
-            margin: auto;
-		}
-
-		h1 {
-			text-align: center;
-			text-decoration: underline;
-		}
-
-		.response div {
-            background-color: #E6E6E6FF;
-			padding: 10px;
-            margin: 20px 0;
-		}
-
-		.response h3 {
-			text-decoration: underline;
-		}
-
-		button {
-            width: 100%;
-			border: none;
-			padding: 20px;
-			font-size: 20px;
-            background-color: black;
-			color: white;
-			transition: 300ms ease-in-out background-color;
-		}
-
-		button:hover {
-            background-color: #5b5b5b;
-		}
-	</style>
-</head>
-<body>
-<div class="container">
-	<h1>Response</h1>
-
-	<div class="response">
-		<div>
-			<h3>Prénom : </h3>
-			<p>%s</p>
-		</div>
-		<div>
-			<h3>Nom : </h3>
-			<p>%s</p>
-		</div>
-		<div>
-			<h3>Raison : </h3>
-			<p>%s</p>
-		</div>
-		<div>
-			<h3>Message : </h3>
-			<p>%s</p>
-		</div>
-	</div>
-
-	<button onclick="history.back();">Retour</button>
-</div>
-</body>
-</html>
-`
