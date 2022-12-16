@@ -6,18 +6,8 @@ WORKDIR /
 
 RUN mkdir /app
 
-RUN git clone https://github.com/olprog-chateau-thierry/send_email.git
+COPY . .
 
-WORKDIR send_email
+RUN go build -o /app/email
 
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /app/send_email
-
-RUN ls -alh /app
-
-FROM scratch
-
-COPY --from=builder /app/send_email /email
-
-EXPOSE 8080
-
-ENTRYPOINT ["/email"]
+ENTRYPOINT ["/app/email"]
