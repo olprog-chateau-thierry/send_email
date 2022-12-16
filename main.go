@@ -44,8 +44,8 @@ func main() {
 			message := r.FormValue("message")
 
 			log.Println(firstname, lastname, reason, message)
-			w.Header().Add("Content-Type", "text/templates")
-			tmpl := template.Must(template.ParseFS(html, "templates/form.templates"))
+			w.Header().Add("Content-Type", "text/html")
+			tmpl := template.Must(template.ParseFS(html, "templates/form.html"))
 
 			tmpl.Execute(w, map[string]string{
 				"firstname": firstname,
